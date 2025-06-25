@@ -1,6 +1,8 @@
 [package]
-name = "calc"
+name = "rexpr"
 version = "0.1.0"
 edition = "2024"
-
-[dependencies]
+description = "A simple CLI calculator with a handwritten lexer and parser in Rust."
+license = "MIT"
+readme = "README.md"
+authors = ["JerryImMouse"]
