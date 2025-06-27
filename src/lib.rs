@@ -2,8 +2,8 @@
 //! for a factorial, but this feature is in TODO list.
 //!
 //! ```
-//! # use rexpr;
-//! let result = rexpr::eval("sin(2) + 20^2").unwrap();
+//! # use lexper;
+//! let result = lexper::eval("sin(2) + 20^2").unwrap();
 //! assert_eq!(f64::round(result), 401.0);
 //! ```
 

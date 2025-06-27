@@ -5,8 +5,8 @@ use crate::{Error, Result, eval::Context, lexer::OperatorType};
 /// Expression type, represents... an expression.  
 /// It could be everything, from just a number like `2` till a function call
 ///
-/// rexpr uses this one to recursively evaluate the "main" expression, the one you get from
-/// [`rexpr::eval`][`crate::eval()`]. In that expression all other expressions are nested in and
+/// lexper uses this one to recursively evaluate the "main" expression, the one you get from
+/// [`lexper::eval`][`crate::eval()`]. In that expression all other expressions are nested in and
 /// evaluated recursively.
 #[derive(Debug, PartialEq)]
 pub enum Expression {

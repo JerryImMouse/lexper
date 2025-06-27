@@ -4,7 +4,7 @@ use crate::{Error, Result};
 mod expression;
 pub use expression::Expression;
 
-/// The heart struct of the rexpr. It parses the token vector into a nested AST of [`Expression`]s.
+/// The heart struct of the lexper. It parses the token vector into a nested AST of [`Expression`]s.
 pub struct Parser<'a> {
     tokens: &'a [Token],
     pos: usize,

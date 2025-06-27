@@ -8,7 +8,7 @@ pub use token::{OperatorType, Token, TokenType};
 ///
 /// ## Example usage
 /// ```
-/// use rexpr::Lexer;
+/// use lexper::Lexer;
 ///
 /// let mut lexer = Lexer::new("2 + 2".to_string());
 /// lexer.lex().unwrap(); // don't forget to use the result

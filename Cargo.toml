@@ -1,5 +1,5 @@
 [package]
-name = "rexpr"
+name = "lexper"
 version = "0.0.1"
 edition = "2024"
 description = "A simple CLI calculator with a handwritten lexer and parser in Rust."
@@ -10,7 +10,7 @@ authors = ["JerryImMouse"]
 
 keywords = ["calculator", "parser", "lexer", "expression"]
 categories = ["command-line-utilities", "parsing", "mathematics"]
-documentation = "https://docs.rs/rexpr"
+documentation = "https://docs.rs/lexper"
 homepage = "https://github.com/JerryImMouse/rexpr"
 exclude = ["/target", "**/*.rs.bk", ".vscode", ".idea"]
 

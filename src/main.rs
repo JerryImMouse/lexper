@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .next()
         .expect("Expected an expression as a first argument");
 
-    let result = rexpr::eval(&expr)?;
+    let result = lexper::eval(&expr)?;
     println!("{}", result);
     Ok(())
 }
