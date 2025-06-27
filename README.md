@@ -1,5 +1,5 @@
 # lexper
-[![Crates.io](https://img.shields.io/crates/v/rexpr.svg)](https://crates.io/crates/lexper)
+[![Crates.io](https://img.shields.io/crates/v/lexper.svg)](https://crates.io/crates/lexper)
 [![Docs.rs](https://docs.rs/rexpr/badge.svg)](https://docs.rs/lexper)  
 lexper is a small & lightweight calculator written in Rust with custom lexer and parser.  
 It also supports constants and function calls(currently sin() and PI as constant).
