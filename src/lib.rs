@@ -1,4 +1,5 @@
-//! Simple expression evaluation crate
+//! Simple expression evaluation crate with custom lexer and parser. Currently doesn't have support
+//! for a factorial, but this feature is in TODO list.
 //!
 //! ```
 //! # use rexpr;
