@@ -1,6 +1,6 @@
 use std::ops::Neg;
 
-use crate::{eval::Context, lexer::OperatorType};
+use crate::{Error, Result, eval::Context, lexer::OperatorType};
 
 #[derive(Debug, PartialEq)]
 pub enum Expression {
@@ -24,14 +24,11 @@ pub enum Expression {
 }
 
 impl Expression {
-    fn apply_unary_op(op: &OperatorType, n: f64) -> f64 {
+    fn apply_unary_op(op: &OperatorType, n: f64) -> Result<f64> {
         match op {
-            OperatorType::PLUS => n.abs(),
-            OperatorType::MINUS => n.neg(),
-            _ => panic!(
-                "Invalid usage of unary operator. Expected '+' or '-', but got: {:?}",
-                op
-            ),
+            OperatorType::PLUS => Ok(n.abs()),
+            OperatorType::MINUS => Ok(n.neg()),
+            _ => Err(Error::invalid_unary_op(op)),
         }
     }
 
@@ -46,25 +43,25 @@ impl Expression {
         }
     }
 
-    pub fn eval(&self, ctx: &Context) -> f64 {
+    pub fn eval(&self, ctx: &Context) -> Result<f64> {
         match self {
-            Self::Number(n) => *n,
+            Self::Number(n) => Ok(*n),
             Self::Variable(var) => {
                 let val = ctx.get_var(var);
                 if let Some(val) = val {
-                    val
+                    Ok(val)
                 } else {
                     panic!("Undefined variable '{}'", var);
                 }
             }
             Self::Unary { op, expr } => {
-                let res = expr.eval(ctx);
-                Self::apply_unary_op(op, res)
+                let res = expr.eval(ctx)?;
+                Ok(Self::apply_unary_op(op, res)?)
             }
             Self::Binary { left, op, right } => {
-                let left = left.eval(ctx);
-                let right = right.eval(ctx);
-                Self::apply_binary_op(op, left, right)
+                let left = left.eval(ctx)?;
+                let right = right.eval(ctx)?;
+                Ok(Self::apply_binary_op(op, left, right))
             }
             Self::Call { callee, args } => {
                 // TODO: Better builtin functions
@@ -77,8 +74,8 @@ impl Expression {
                             );
                         }
 
-                        let arg = args.first().unwrap().eval(ctx);
-                        arg.sin()
+                        let arg = args.first().unwrap().eval(ctx)?;
+                        Ok(arg.sin())
                     }
                     _ => panic!("Undefined function: {}", &callee),
                 }

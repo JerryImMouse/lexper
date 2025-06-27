@@ -1,3 +1,4 @@
+use crate::Result;
 use crate::parser::Expression;
 use std::{collections::HashMap, f64};
 
@@ -20,7 +21,7 @@ impl Context {
         self.variables.get(name).copied()
     }
 
-    pub fn eval(&self, expr: Expression) -> f64 {
+    pub fn eval(&self, expr: Expression) -> Result<f64> {
         expr.eval(self)
     }
 }
@@ -36,19 +37,19 @@ mod test {
         let raw = "2 + 10";
         println!("Raw String: {}", raw);
         let mut lexer = Lexer::new(raw.to_string());
-        lexer.lex();
+        lexer.lex().unwrap();
 
         println!("{:#?}", lexer.tokens());
 
         let mut parser = Parser::new(lexer.tokens());
-        let expr = parser.parse_expression(0);
+        let expr = parser.parse_expression(0).unwrap();
 
         println!("\n{:#?}", expr);
 
         let mut ctx = Context::new();
         ctx.init();
 
-        let result = ctx.eval(expr);
+        let result = ctx.eval(expr).unwrap();
         println!("Result: {}", result);
         assert_eq!(result, 12.0);
     }

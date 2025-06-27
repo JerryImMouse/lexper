@@ -1,5 +1,6 @@
 mod token;
 
+use crate::{Error, Result};
 pub use token::{OperatorType, Token, TokenType};
 
 #[derive(Debug, Clone)]
@@ -16,7 +17,7 @@ impl Lexer {
         }
     }
 
-    pub fn lex(&mut self) {
+    pub fn lex(&mut self) -> Result<()> {
         let src = self.source.trim();
 
         let mut iter = src.chars().peekable();
@@ -42,7 +43,7 @@ impl Lexer {
                     }
 
                     let slice = &self.source[start..offset];
-                    let is_num = slice.parse::<f64>().expect("Error parsing number");
+                    let is_num = slice.parse::<f64>()?;
                     self.tokens
                         .push(Token::new(TokenType::LITERAL(is_num), line, local_col));
                 }
@@ -167,13 +168,12 @@ impl Lexer {
                 }
 
                 c => {
-                    panic!(
-                        "Unknown character at: row: {}, column: {}. Char: {}",
-                        line, col, c
-                    );
+                    return Err(Error::unknown_char(line, col, c));
                 }
             }
         }
+
+        Ok(())
     }
 
     pub fn tokens(&self) -> &Vec<Token> {
@@ -189,7 +189,7 @@ mod test {
     fn test_token_simple() {
         let str = "2 + 3";
         let mut lexer = Lexer::new(str.to_string());
-        lexer.lex();
+        lexer.lex().unwrap();
         let tokens = lexer.tokens();
 
         println!("Source string: {}", str);
