@@ -3,6 +3,17 @@ mod token;
 use crate::{Error, Result};
 pub use token::{OperatorType, Token, TokenType};
 
+/// This struct is responsible for "turning" source string into a list of tokens  
+/// Tokens makes sense only for the [Parser][`crate::Parser`] struct
+///
+/// ## Example usage
+/// ```
+/// use rexpr::Lexer;
+///
+/// let mut lexer = Lexer::new("2 + 2".to_string());
+/// lexer.lex().unwrap(); // don't forget to use the result
+/// println!("{:#?}", lexer.tokens());
+/// ```
 #[derive(Debug, Clone)]
 pub struct Lexer {
     tokens: Vec<Token>,
@@ -10,6 +21,7 @@ pub struct Lexer {
 }
 
 impl Lexer {
+    /// Creates new lexer with provided source
     pub fn new(source: String) -> Self {
         Self {
             tokens: vec![],
@@ -17,6 +29,7 @@ impl Lexer {
         }
     }
 
+    /// Turns source string into a list of tokens populating the inner vector of tokens
     pub fn lex(&mut self) -> Result<()> {
         let src = self.source.trim();
 
@@ -176,6 +189,7 @@ impl Lexer {
         Ok(())
     }
 
+    /// The only way to retrieve tokens, pass the output to the [Parser][`crate::Parser`] to process further
     pub fn tokens(&self) -> &Vec<Token> {
         &self.tokens
     }

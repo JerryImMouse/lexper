@@ -1,5 +1,5 @@
-//! Well, error module. Of course, i can use thiserror to setup it without boilerplate
-//! But I don't want to use any dependencies in this project, so here is the boilerplate code :)
+// Well, error module. Of course, i can use thiserror to setup it without boilerplate
+// But I don't want to use any dependencies in this project, so here is the boilerplate code :)
 
 use std::{error, num::ParseFloatError};
 

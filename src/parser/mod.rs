@@ -4,12 +4,15 @@ use crate::{Error, Result};
 mod expression;
 pub use expression::Expression;
 
+/// The heart struct of the rexpr. It parses the token vector into a nested AST of [`Expression`]s.
 pub struct Parser<'a> {
     tokens: &'a [Token],
     pos: usize,
 }
 
 impl<'a> Parser<'a> {
+    /// Creates a new instance of the [`Parser`], but as the argument requires a slice of tokens.
+    /// This one was made to not to clone a vector of tokens after lexing.
     pub fn new(tokens: &'a [Token]) -> Self {
         Self { tokens, pos: 0 }
     }
@@ -39,7 +42,7 @@ impl<'a> Parser<'a> {
         }
     }
 
-    pub fn parse_primary(&mut self) -> Result<Expression> {
+    pub(crate) fn parse_primary(&mut self) -> Result<Expression> {
         if let Some(t) = self.peek() {
             if let TokenType::OPERATOR(op) = t.get_type() {
                 if matches!(op, OperatorType::PLUS | OperatorType::MINUS) {
@@ -115,6 +118,7 @@ impl<'a> Parser<'a> {
         Ok(args)
     }
 
+    /// The main method, parses the whole slice of tokens into a nested expression... recursively.
     pub fn parse_expression(&mut self, min_prec: u8) -> Result<Expression> {
         let mut lhs = self.parse_primary()?;
 

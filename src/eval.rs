@@ -2,25 +2,33 @@ use crate::Result;
 use crate::parser::Expression;
 use std::{collections::HashMap, f64};
 
+/// Expression context, links variables and their values(currently only floats).
+#[derive(Debug, Default)]
 pub struct Context {
     variables: HashMap<String, f64>,
 }
 
 impl Context {
     pub fn new() -> Self {
-        Self {
-            variables: HashMap::new(),
-        }
+        Self::default()
     }
 
+    /// Initializes [`Context`] with some builtin variables, you should call this one before using
+    /// it. Of course if you don't need some constants from f64... well, don't call it?
     pub fn init(&mut self) {
         self.variables.insert("PI".to_string(), f64::consts::PI);
     }
 
-    pub fn get_var(&self, name: &str) -> Option<f64> {
+    /// Defines a new variable(basically just inserts a new record into a hashmap).
+    pub fn define(&mut self, name: String, value: f64) {
+        self.variables.insert(name, value);
+    }
+
+    pub(crate) fn get_var(&self, name: &str) -> Option<f64> {
         self.variables.get(name).copied()
     }
 
+    /// Evaluates the passed expression, usually you'll get one from the [Parser][`crate::Parser`]
     pub fn eval(&self, expr: Expression) -> Result<f64> {
         expr.eval(self)
     }

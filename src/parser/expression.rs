@@ -2,21 +2,33 @@ use std::ops::Neg;
 
 use crate::{Error, Result, eval::Context, lexer::OperatorType};
 
+/// Expression type, represents... an expression.  
+/// It could be everything, from just a number like `2` till a function call
+///
+/// rexpr uses this one to recursively evaluate the "main" expression, the one you get from
+/// [`rexpr::eval`][`crate::eval`]. In that expression all other expressions are nested in and
+/// evaluated recursively.
 #[derive(Debug, PartialEq)]
 pub enum Expression {
+    /// Just a number, like "2"
     Number(f64),
-    Variable(String), // for future
+    /// Some variable inside an expression, like "PI"
+    Variable(String),
+
+    /// Unary expression, like negotiation -> "-2"
     Unary {
         op: OperatorType,
         expr: Box<Expression>,
     },
 
+    /// Binary expression, the most common -> "2 + 3"
     Binary {
         left: Box<Expression>,
         op: OperatorType,
         right: Box<Expression>,
     },
 
+    /// A function call -> "sin(2)"
     Call {
         callee: String,
         args: Vec<Expression>,
@@ -43,7 +55,7 @@ impl Expression {
         }
     }
 
-    pub fn eval(&self, ctx: &Context) -> Result<f64> {
+    pub(crate) fn eval(&self, ctx: &Context) -> Result<f64> {
         match self {
             Self::Number(n) => Ok(*n),
             Self::Variable(var) => {
