@@ -1,7 +1,7 @@
 //! Simple expression evaluation crate
 //!
 //! ```
-//! use rexpr;
+//! # use rexpr;
 //! let result = rexpr::eval("sin(2) + 20^2").unwrap();
 //! assert_eq!(f64::round(result), 401.0);
 //! ```
@@ -9,6 +9,7 @@
 mod eval;
 pub(crate) mod lexer;
 pub(crate) mod parser;
+mod r#macro;
 
 pub mod error;
 pub(crate) use error::Result;
