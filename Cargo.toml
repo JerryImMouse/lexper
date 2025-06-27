@@ -4,5 +4,15 @@ version = "0.1.0"
 edition = "2024"
 description = "A simple CLI calculator with a handwritten lexer and parser in Rust."
 license = "MIT"
+repository = "https://github.com/JerryImMouse/rexpr"
 readme = "README.md"
 authors = ["JerryImMouse"]
+
+keywords = ["calculator", "parser", "lexer", "expression"]
+categories = ["command-line-utilities", "parsing", "mathematics"]
+documentation = "https://docs.rs/rexpr"
+homepage = "https://github.com/JerryImMouse/rexpr"
+exclude = ["/target", "**/*.rs.bk", ".vscode", ".idea"]
+
+[badges]
+maintenance = { status = "passively-maintained" }

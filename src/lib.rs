@@ -8,8 +8,8 @@
 
 mod eval;
 pub(crate) mod lexer;
-pub(crate) mod parser;
 mod r#macro;
+pub(crate) mod parser;
 
 pub mod error;
 pub(crate) use error::Result;
