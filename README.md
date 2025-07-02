@@ -2,7 +2,7 @@
 [![Crates.io](https://img.shields.io/crates/v/lexper.svg)](https://crates.io/crates/lexper)
 [![Docs.rs](https://docs.rs/rexpr/badge.svg)](https://docs.rs/lexper)  
 lexper is a small & lightweight calculator written in Rust with custom lexer and parser.  
-It also supports constants and function calls(currently sin() and PI as constant).
+It also supports constants and function calls.
 
 ## Installation
 Just use `cargo add lexper` or add the following line to your Cargo.toml:
@@ -30,4 +30,3 @@ fn main() {
 ## Known Issues
 - Some expressions like "(2 + 2" will work, though the left parenthesis isn't closed, i'll fix that in time.
 - There are no factorial support, it'll be added in future updates
-- Lack of builtin functions and ability to add them yourself. It will be implemented in future updates
