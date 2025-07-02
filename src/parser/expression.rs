@@ -1,6 +1,6 @@
 use std::ops::Neg;
 
-use crate::{Error, Result, eval::Context, lexer::OperatorType};
+use crate::{Error, Interpreter, Result, lexer::OperatorType};
 
 /// Expression type, represents... an expression.  
 /// It could be everything, from just a number like `2` till a function call
@@ -55,7 +55,7 @@ impl Expression {
         }
     }
 
-    pub(crate) fn eval(&self, ctx: &Context) -> Result<f64> {
+    pub(crate) fn eval(&self, ctx: &Interpreter) -> Result<f64> {
         match self {
             Self::Number(n) => Ok(*n),
             Self::Variable(var) => {
@@ -76,21 +76,14 @@ impl Expression {
                 Ok(Self::apply_binary_op(op, left, right))
             }
             Self::Call { callee, args } => {
-                // TODO: Better builtin functions
-                match callee.as_str() {
-                    "sin" => {
-                        if args.len() != 1 {
-                            panic!(
-                                "Invalid amount of arguments. Expected: 1, but got: {}",
-                                args.len()
-                            );
-                        }
-
-                        let arg = args.first().unwrap().eval(ctx)?;
-                        Ok(arg.sin())
-                    }
-                    _ => panic!("Undefined function: {}", &callee),
+                let mut evaluated_args = Vec::with_capacity(args.len());
+                for arg in args {
+                    let value = arg.eval(ctx)?;
+                    evaluated_args.push(value);
                 }
+
+                ctx.call_fn(callee.as_str(), evaluated_args.as_slice())
+                    .ok_or(Error::undefined(callee.to_owned()))?
             }
         }
     }

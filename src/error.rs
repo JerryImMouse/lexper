@@ -16,11 +16,13 @@ pub enum Error {
         found: Option<String>,
         expected: String,
     },
+    UndefinedIdentifier(String),
     UnknownChar {
         row: usize,
         col: usize,
         char: char,
     },
+    Other(String),
 }
 
 impl Error {
@@ -37,6 +39,14 @@ impl Error {
 
     pub fn unknown_char(row: usize, col: usize, char: char) -> Self {
         Self::UnknownChar { row, col, char }
+    }
+
+    pub fn undefined(ident: String) -> Self {
+        Self::UndefinedIdentifier(ident)
+    }
+
+    pub fn other(s: String) -> Self {
+        Self::Other(s)
     }
 }
 
@@ -55,11 +65,13 @@ impl std::fmt::Display for Error {
                 }
             }
             Self::ParseNumError(e) => write!(f, "{}", e),
+            Self::UndefinedIdentifier(i) => write!(f, "Undefined identifier met: {}", i),
             Self::UnknownChar { row, col, char } => write!(
                 f,
                 "Unknown character met at: Row: {}, Column: {}, Character: {}",
                 row, col, char
             ),
+            Self::Other(s) => write!(f, "{s}"),
         }
     }
 }

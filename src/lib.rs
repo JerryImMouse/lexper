@@ -7,7 +7,7 @@
 //! assert_eq!(f64::round(result), 401.0);
 //! ```
 
-mod eval;
+mod interpreter;
 pub(crate) mod lexer;
 mod r#macro;
 pub(crate) mod parser;
@@ -16,7 +16,7 @@ pub mod error;
 pub(crate) use error::Result;
 
 pub use error::Error;
-pub use eval::Context;
+pub use interpreter::Interpreter;
 pub use lexer::{Lexer, OperatorType, Token, TokenType};
 pub use parser::{Expression, Parser};
 
@@ -26,7 +26,6 @@ pub fn eval(expr: &str) -> Result<f64> {
 
     let mut parser = Parser::new(lexer.tokens());
     let result = parser.parse_expression(0)?;
-    let mut ctx = Context::new();
-    ctx.init();
-    ctx.eval(result)
+    let interpreter = Interpreter::new();
+    interpreter.evaluate(result)
 }
