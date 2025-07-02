@@ -1,6 +1,6 @@
 [package]
 name = "lexper"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2024"
 description = "A simple CLI calculator with a handwritten lexer and parser in Rust."
 license-file = "LICENSE.txt"
